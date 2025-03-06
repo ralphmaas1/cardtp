@@ -49,7 +49,7 @@ export function TestimonialsSection() {
                   />
                 </div>
               </div>
-              <p className="text-foreground/90 italic mb-4">"{testimonial.quote}"</p>
+              <p className="text-foreground/90 italic mb-4">&ldquo;{testimonial.quote}&rdquo;</p>
             </CardContent>
             <CardFooter className="flex flex-col items-center border-t border-border/40 pt-4">
               <p className="font-semibold">{testimonial.name}</p>
