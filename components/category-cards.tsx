@@ -8,7 +8,7 @@ const categories = [
     title: "Trading Card Games",
     description: "Magic: The Gathering, Pokémon, Yu-Gi-Oh and more collectible card games",
     image: "/placeholder.svg?height=300&width=500",
-    href: "/categories/tgp",
+    href: "/categories/tgp", // Ensuring this links to the correct TGP category page
     count: 1248,
   },
   {
