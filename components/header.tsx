@@ -10,7 +10,13 @@ import { LanguageSelector } from "@/components/language-selector"
 
 export function Header() {
   const [showLoginDialog, setShowLoginDialog] = useState(false)
+  const [dialogMode, setDialogMode] = useState<"login" | "signup">("login")
   const [showMobileMenu, setShowMobileMenu] = useState(false)
+
+  const openLoginDialog = (mode: "login" | "signup") => {
+    setDialogMode(mode)
+    setShowLoginDialog(true)
+  }
 
   return (
     <header className="sticky top-0 z-10">
@@ -63,10 +69,12 @@ export function Header() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button variant="outline" onClick={() => setShowLoginDialog(true)} className="hidden sm:inline-flex">
+            <Button variant="outline" onClick={() => openLoginDialog("login")} className="hidden sm:inline-flex">
               Log in
             </Button>
-            <Button className="hidden sm:inline-flex">Sign up</Button>
+            <Button onClick={() => openLoginDialog("signup")} className="hidden sm:inline-flex">
+              Sign up
+            </Button>
             <LanguageSelector />
             <Button
               variant="ghost"
@@ -115,21 +123,29 @@ export function Header() {
                 <Button
                   variant="outline"
                   onClick={() => {
-                    setShowLoginDialog(true)
+                    openLoginDialog("login")
                     setShowMobileMenu(false)
                   }}
                   className="flex-1"
                 >
                   Log in
                 </Button>
-                <Button className="flex-1">Sign up</Button>
+                <Button
+                  onClick={() => {
+                    openLoginDialog("signup")
+                    setShowMobileMenu(false)
+                  }}
+                  className="flex-1"
+                >
+                  Sign up
+                </Button>
               </div>
             </div>
           </div>
         )}
       </div>
 
-      <LoginDialog open={showLoginDialog} onOpenChange={setShowLoginDialog} />
+      <LoginDialog open={showLoginDialog} onOpenChange={setShowLoginDialog} initialMode={dialogMode} />
     </header>
   )
 }

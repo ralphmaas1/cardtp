@@ -1,7 +1,25 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
+// Create a simple context to share the login dialog state
+// This is a simplified example - in a real app, you might want to use a more robust state management solution
+export type AuthDialogContextType = {
+  openLoginDialog?: (mode: "login" | "signup") => void
+}
+
+// This is a placeholder - you'll need to create this context in a separate file
+// and wrap your app with a provider that supplies the actual implementation
+export const AuthDialogContext = {
+  openLoginDialog: undefined as ((mode: "login" | "signup") => void) | undefined,
+}
+
 export function HeroSection() {
+  // In a real implementation, you would use useContext to get the openLoginDialog function
+  // const { openLoginDialog } = useContext(AuthDialogContext)
+
+  // For now, we'll just link to the marketplace
   return (
     <div className="relative overflow-hidden bg-background py-16 md:py-24">
       <div className="absolute inset-0 bg-[url('/placeholder.svg?height=800&width=1600')] bg-cover bg-center opacity-10"></div>
