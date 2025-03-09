@@ -21,7 +21,7 @@ import {
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/ui/use-toast"
 
-// Definieer interfaces voor de user_roles query
+// Define interfaces for the user_roles query
 interface Role {
   name: string
 }
