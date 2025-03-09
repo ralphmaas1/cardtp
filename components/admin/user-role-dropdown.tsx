@@ -4,19 +4,41 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Shield, User, Check, ChevronDown } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { updateUserRole } from "@/lib/users"
 
 interface UserRoleDropdownProps {
   userId: string
   initialRole: string
+  roles?: { id: number; name: string }[]
 }
 
-export function UserRoleDropdown({ userId, initialRole }: UserRoleDropdownProps) {
+export function UserRoleDropdown({ userId, initialRole, roles = [] }: UserRoleDropdownProps) {
   const [role, setRole] = useState(initialRole)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleRoleChange = (newRole: string) => {
-    // In a real app, you would make an API call here
-    console.log(`Changing user ${userId} role to ${newRole}`)
-    setRole(newRole)
+  // Standaard rollen als er geen worden doorgegeven
+  const availableRoles =
+    roles.length > 0
+      ? roles
+      : [
+          { id: 1, name: "admin" },
+          { id: 2, name: "moderator" },
+          { id: 3, name: "user" },
+        ]
+
+  const handleRoleChange = async (newRole: string, roleId: number) => {
+    if (role === newRole) return
+
+    setIsLoading(true)
+    try {
+      await updateUserRole(userId, roleId)
+      setRole(newRole)
+    } catch (error) {
+      console.error("Error updating role:", error)
+      alert("Kon rol niet bijwerken")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const getRoleIcon = () => {
@@ -55,30 +77,34 @@ export function UserRoleDropdown({ userId, initialRole }: UserRoleDropdownProps)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className={`px-2 py-1 h-auto text-xs rounded-full ${getRoleColor()}`}>
+        <Button
+          variant="ghost"
+          className={`px-2 py-1 h-auto text-xs rounded-full ${getRoleColor()}`}
+          disabled={isLoading}
+        >
           <span className="flex items-center">
             {getRoleIcon()}
             {getRoleLabel()}
-            <ChevronDown className="h-3 w-3 ml-1" />
+            {isLoading ? "..." : <ChevronDown className="h-3 w-3 ml-1" />}
           </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
-        <DropdownMenuItem onClick={() => handleRoleChange("admin")} className="cursor-pointer">
-          <Shield className="h-4 w-4 mr-2 text-purple-600" />
-          <span>Beheerder</span>
-          {role === "admin" && <Check className="h-4 w-4 ml-2" />}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleRoleChange("moderator")} className="cursor-pointer">
-          <Shield className="h-4 w-4 mr-2 text-blue-600" />
-          <span>Moderator</span>
-          {role === "moderator" && <Check className="h-4 w-4 ml-2" />}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleRoleChange("user")} className="cursor-pointer">
-          <User className="h-4 w-4 mr-2 text-gray-600" />
-          <span>Gebruiker</span>
-          {role === "user" && <Check className="h-4 w-4 ml-2" />}
-        </DropdownMenuItem>
+        {availableRoles.map((roleItem) => (
+          <DropdownMenuItem
+            key={roleItem.id}
+            onClick={() => handleRoleChange(roleItem.name, roleItem.id)}
+            className="cursor-pointer"
+          >
+            {roleItem.name === "admin" && <Shield className="h-4 w-4 mr-2 text-purple-600" />}
+            {roleItem.name === "moderator" && <Shield className="h-4 w-4 mr-2 text-blue-600" />}
+            {roleItem.name === "user" && <User className="h-4 w-4 mr-2 text-gray-600" />}
+            <span>
+              {roleItem.name === "admin" ? "Beheerder" : roleItem.name === "moderator" ? "Moderator" : "Gebruiker"}
+            </span>
+            {role === roleItem.name && <Check className="h-4 w-4 ml-2" />}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   )

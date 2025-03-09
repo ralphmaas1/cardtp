@@ -20,95 +20,23 @@ import {
 import Link from "next/link"
 import { UserStatsCards } from "@/components/admin/user-stats-cards"
 import { UserRoleDropdown } from "@/components/admin/user-role-dropdown"
+import { getUsers, getUserStats } from '@/lib/users';
 
-export default function UsersPage() {
-  // Sample users data
-  const users = [
-    {
-      id: "user-1",
-      name: "John Smith",
-      username: "johnsmith",
-      email: "john.smith@example.com",
-      avatar: "/placeholder.svg?height=40&width=40",
-      role: "admin",
-      status: "active",
-      verified: true,
-      lastActive: "2023-06-15T14:30:00",
-      registeredDate: "2022-01-10T09:15:00",
-      listings: 24,
-      purchases: 12,
-    },
-    {
-      id: "user-2",
-      name: "Jane Doe",
-      username: "janedoe",
-      email: "jane.doe@example.com",
-      avatar: "/placeholder.svg?height=40&width=40",
-      role: "user",
-      status: "active",
-      verified: true,
-      lastActive: "2023-06-14T10:45:00",
-      registeredDate: "2022-03-22T11:30:00",
-      listings: 8,
-      purchases: 15,
-    },
-    {
-      id: "user-3",
-      name: "Robert Johnson",
-      username: "robjohnson",
-      email: "robert.johnson@example.com",
-      avatar: "/placeholder.svg?height=40&width=40",
-      role: "user",
-      status: "inactive",
-      verified: true,
-      lastActive: "2023-05-20T16:15:00",
-      registeredDate: "2022-02-15T14:20:00",
-      listings: 0,
-      purchases: 3,
-    },
-    {
-      id: "user-4",
-      name: "Emily Wilson",
-      username: "emilyw",
-      email: "emily.wilson@example.com",
-      avatar: "/placeholder.svg?height=40&width=40",
-      role: "moderator",
-      status: "active",
-      verified: true,
-      lastActive: "2023-06-15T09:10:00",
-      registeredDate: "2022-04-05T08:45:00",
-      listings: 12,
-      purchases: 7,
-    },
-    {
-      id: "user-5",
-      name: "Michael Brown",
-      username: "mikebrown",
-      email: "michael.brown@example.com",
-      avatar: "/placeholder.svg?height=40&width=40",
-      role: "user",
-      status: "suspended",
-      verified: true,
-      lastActive: "2023-04-10T11:20:00",
-      registeredDate: "2022-05-18T13:30:00",
-      listings: 5,
-      purchases: 2,
-    },
-    {
-      id: "user-6",
-      name: "Sarah Davis",
-      username: "sarahdavis",
-      email: "sarah.davis@example.com",
-      avatar: "/placeholder.svg?height=40&width=40",
-      role: "user",
-      status: "active",
-      verified: false,
-      lastActive: "2023-06-13T15:40:00",
-      registeredDate: "2023-06-10T10:15:00",
-      listings: 0,
-      purchases: 0,
-    },
-  ]
+// Importeer de benodigde functies
+// import { getUsers } from "@/lib/users"
+
+export default async function UsersPage() {
+  // Haal gebruikers en statistieken op van Supabase
+  const { users, totalCount } = await getUsers({ page: 1, limit: 10 })
+
+  // De rest van de functie blijft hetzelfde, maar gebruik de opgehaalde gebruikers
+  // in plaats van de hardcoded data
+
+  // Vervang de 'users' array met de opgehaalde gebruikers
+  // De rest van de code blijft hetzelfde
+}
+
+
 
   // Function to get status badge styling
   const getStatusBadge = (status: string) => {

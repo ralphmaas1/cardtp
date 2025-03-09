@@ -1,31 +1,11 @@
+// Vervang de useState en useEffect met server data
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
 import { UserPlus, Users, UserCheck } from "lucide-react"
-import { useState, useEffect } from "react"
 
-export function UserStatsCards() {
-  // In a real app, this data would come from an API
-  const [stats, setStats] = useState({
-    totalUsers: 0,
-    newUsers: 0,
-    activeUsers: 0,
-    verifiedUsers: 0,
-  })
-
-  // Simulate loading data
-  useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setStats({
-        totalUsers: 2543,
-        newUsers: 128,
-        activeUsers: 1876,
-        verifiedUsers: 2210,
-      })
-    }, 500)
-  }, [])
-
+// Voeg props toe om de statistieken door te geven
+export function UserStatsCards({ stats }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       <Card>

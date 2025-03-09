@@ -26,55 +26,20 @@ import Link from "next/link"
 import { UserActivityChart } from "@/components/admin/user-activity-chart"
 import { UserRoleDropdown } from "@/components/admin/user-role-dropdown"
 
-export default function UserDetailPage({ params }: { params: { id: string } }) {
-  // In a real app, you would fetch user data based on the ID
-  // For this example, we'll use hardcoded data
-  const user = {
-    id: params.id,
-    name: "John Smith",
-    username: "johnsmith",
-    email: "john.smith@example.com",
-    avatar: "/placeholder.svg?height=200&width=200",
-    role: "admin",
-    status: "active",
-    verified: true,
-    lastActive: "2023-06-15T14:30:00",
-    registeredDate: "2022-01-10T09:15:00",
-    listings: 24,
-    purchases: 12,
-    phone: "+31 6 12345678",
-    address: {
-      street: "Hoofdstraat 123",
-      city: "Amsterdam",
-      postalCode: "1012 AB",
-      country: "Nederland",
-    },
-    bio: "Ervaren verzamelaar van Pokémon kaarten met een passie voor zeldzame edities.",
-    website: "https://johnsmith.example.com",
-    socialMedia: {
-      twitter: "@johnsmith",
-      instagram: "@johnsmith_cards",
-      facebook: "johnsmithcards",
-    },
-    preferences: {
-      notifications: true,
-      newsletter: true,
-      twoFactorAuth: true,
-    },
-    membershipLevel: "Premium",
-    accountBalance: 250.75,
-    reputation: 4.8,
-    totalSales: 15420.5,
-    totalPurchases: 8750.25,
-    favoriteCategories: ["Pokémon", "Magic: The Gathering"],
-    recentSearches: ["Charizard Holo", "Black Lotus", "Pikachu Illustrator"],
-    loginHistory: [
-      { date: "2023-06-15T14:30:00", ip: "192.168.1.1", device: "Chrome / Windows" },
-      { date: "2023-06-14T10:15:00", ip: "192.168.1.1", device: "Chrome / Windows" },
-      { date: "2023-06-12T09:45:00", ip: "192.168.1.1", device: "Mobile / iOS" },
-    ],
-    notes: "VIP klant. Heeft geholpen bij het promoten van het platform op sociale media.",
-  }
+// Importeer de benodigde functies
+import { getUserById } from "@/lib/users"
+
+// Vervang de huidige export default functie met deze:
+export default async function UserDetailPage({ params }: { params: { id: string } }) {
+  // Haal gebruiker op van Supabase
+  const user = await getUserById(params.id)
+
+  // De rest van de functie blijft hetzelfde, maar gebruik de opgehaalde gebruiker
+  // in plaats van de hardcoded data
+
+  // De rest van de code blijft hetzelfde
+}
+
 
   // Format date
   const formatDate = (dateString: string) => {
