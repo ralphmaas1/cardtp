@@ -28,15 +28,7 @@ import { getUsers, getUserStats } from '@/lib/users';
 export default async function UsersPage() {
   // Haal gebruikers en statistieken op van Supabase
   const { users, totalCount } = await getUsers({ page: 1, limit: 10 })
-
-  // De rest van de functie blijft hetzelfde, maar gebruik de opgehaalde gebruikers
-  // in plaats van de hardcoded data
-
-  // Vervang de 'users' array met de opgehaalde gebruikers
-  // De rest van de code blijft hetzelfde
-}
-
-
+  const stats = await getUserStats()
 
   // Function to get status badge styling
   const getStatusBadge = (status: string) => {
@@ -46,6 +38,7 @@ export default async function UsersPage() {
       case "inactive":
         return "bg-gray-100 text-gray-800"
       case "suspended":
+      case "banned":
         return "bg-red-100 text-red-800"
       default:
         return "bg-gray-100 text-gray-800"
@@ -54,6 +47,7 @@ export default async function UsersPage() {
 
   // Function to format date
   const formatDate = (dateString: string) => {
+    if (!dateString) return "Onbekend"
     const date = new Date(dateString)
     return new Intl.DateTimeFormat("nl-NL", {
       year: "numeric",
@@ -64,6 +58,7 @@ export default async function UsersPage() {
 
   // Function to calculate time since last active
   const getTimeSince = (dateString: string) => {
+    if (!dateString) return "Nooit"
     const date = new Date(dateString)
     const now = new Date()
     const diffMs = now.getTime() - date.getTime()
@@ -103,7 +98,7 @@ export default async function UsersPage() {
       </div>
 
       {/* User Statistics */}
-      <UserStatsCards />
+      <UserStatsCards stats={stats} />
 
       {/* User Management Tabs */}
       <Tabs defaultValue="all-users" className="mt-8">
@@ -146,7 +141,7 @@ export default async function UsersPage() {
                       <TableHead>Gebruiker</TableHead>
                       <TableHead>Rol</TableHead>
                       <TableHead>Status</TableHead>
-                      <TableHead>Geverifieerd</TableHead>
+                      <TableHead>Verificatie</TableHead>
                       <TableHead>Laatste activiteit</TableHead>
                       <TableHead>Geregistreerd</TableHead>
                       <TableHead>Activiteit</TableHead>
@@ -159,12 +154,12 @@ export default async function UsersPage() {
                         <TableCell>
                           <div className="flex items-center gap-3">
                             <div className="relative h-10 w-10 rounded-full overflow-hidden">
-                              <img src={user.avatar || "/placeholder.svg"} alt={user.name} className="object-cover" />
+                              <img src={user.avatarUrl || "/placeholder.svg"} alt={user.name} className="object-cover" />
                             </div>
                             <div>
                               <div className="font-medium">{user.name}</div>
                               <div className="text-xs text-gray-500">{user.email}</div>
-                              <div className="text-xs text-gray-400">@{user.username}</div>
+                              <div className="text-xs text-gray-400">@{user.name.toLowerCase().replace(/\s+/g, '')}</div>
                             </div>
                           </div>
                         </TableCell>
@@ -181,32 +176,25 @@ export default async function UsersPage() {
                           </span>
                         </TableCell>
                         <TableCell>
-                          {user.verified ? (
-                            <span className="flex items-center text-green-600">
-                              <UserCheck className="h-4 w-4 mr-1" />
-                              Ja
-                            </span>
-                          ) : (
-                            <span className="flex items-center text-yellow-600">
-                              <UserX className="h-4 w-4 mr-1" />
-                              Nee
-                            </span>
-                          )}
+                          <span className="flex items-center text-yellow-600">
+                            <UserX className="h-4 w-4 mr-1" />
+                            Onbekend
+                          </span>
                         </TableCell>
                         <TableCell>
                           <div className="text-sm">{getTimeSince(user.lastActive)}</div>
                           <div className="text-xs text-gray-500">
-                            {new Date(user.lastActive).toLocaleTimeString("nl-NL", {
+                            {user.lastActive ? new Date(user.lastActive).toLocaleTimeString("nl-NL", {
                               hour: "2-digit",
                               minute: "2-digit",
-                            })}
+                            }) : "Onbekend"}
                           </div>
                         </TableCell>
-                        <TableCell>{formatDate(user.registeredDate)}</TableCell>
+                        <TableCell>{formatDate(user.createdAt)}</TableCell>
                         <TableCell>
                           <div className="text-xs">
-                            <div>{user.listings} advertenties</div>
-                            <div>{user.purchases} aankopen</div>
+                            <div>0 advertenties</div>
+                            <div>0 aankopen</div>
                           </div>
                         </TableCell>
                         <TableCell className="text-right">
@@ -234,7 +222,7 @@ export default async function UsersPage() {
               </div>
 
               <div className="flex items-center justify-between mt-4">
-                <div className="text-sm text-gray-500">Toont 1-6 van 235 gebruikers</div>
+                <div className="text-sm text-gray-500">Toont 1-6 van {totalCount} gebruikers</div>
                 <div className="flex gap-1">
                   <Button variant="outline" size="sm" disabled>
                     Vorige
