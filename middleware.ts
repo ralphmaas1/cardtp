@@ -2,6 +2,16 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs"
 
+// Definieer een interface voor de rol
+interface Role {
+  name: string
+}
+
+// Definieer een interface voor het resultaat van de query
+interface UserRoleResult {
+  role: Role
+}
+
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
   const supabase = createMiddlewareClient({ req, res })
@@ -11,8 +21,6 @@ export async function middleware(req: NextRequest) {
   
   // Als de gebruiker niet is ingelogd en probeert toegang te krijgen tot admin pagina's
   if (!session && req.nextUrl.pathname.startsWith('/admin')) {
-    const redirectUrl = new URL('/login', req.url)\
-    redirectUrl  {
     const redirectUrl = new URL('/login', req.url)
     redirectUrl.searchParams.set('redirectTo', req.nextUrl.pathname)
     return NextResponse.redirect(redirectUrl)
@@ -21,14 +29,19 @@ export async function middleware(req: NextRequest) {
   // Als de gebruiker is ingelogd, controleer of ze admin rechten hebben voor admin pagina's
   if (session && req.nextUrl.pathname.startsWith('/admin')) {
     // Haal de gebruikersrol op
-    const { data: roles } = await supabase
+    const { data: userRole } = await supabase
       .from('user_roles')
       .select('role:roles(name)')
       .eq('user_id', session.user.id)
       .single()
     
-    const isAdmin = roles?.role?.name === 'admin'
-    const isModerator = roles?.role?.name === 'moderator' || isAdmin
+    // Cast het resultaat naar het juiste type
+    const typedUserRole = userRole as UserRoleResult | null
+    
+    // Controleer de rol van de gebruiker
+    const roleName = typedUserRole?.role?.name
+    const isAdmin = roleName === 'admin'
+    const isModerator = roleName === 'moderator' || isAdmin
     
     // Als de gebruiker geen admin is, redirect naar de homepage
     if (!isAdmin && !req.nextUrl.pathname.startsWith('/admin/moderator')) {

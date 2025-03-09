@@ -1,47 +1,76 @@
+import Link from "next/link"
+import Image from "next/image"
+import { ArrowLeft, Ban, BarChart, Eye, Trash, Shield, Lock, UserCheck, AlertTriangle, CreditCard, MapPin, Globe, Phone, MessageSquare, Tag, ShoppingCart } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
-import {
-  ArrowLeft,
-  Mail,
-  Edit,
-  Trash,
-  Lock,
-  Ban,
-  UserCheck,
-  ShoppingCart,
-  Tag,
-  MessageSquare,
-  CreditCard,
-  MapPin,
-  Globe,
-  Phone,
-  Shield,
-  AlertTriangle,
-  Eye,
-  BarChart,
-} from "lucide-react"
-import Link from "next/link"
-import { UserActivityChart } from "@/components/admin/user-activity-chart"
 import { UserRoleDropdown } from "@/components/admin/user-role-dropdown"
+import { UserActivityChart } from "@/components/admin/user-activity-chart"
+import { supabaseAdmin } from "@/lib/supabase"
 
-// Importeer de benodigde functies
-import { getUserById } from "@/lib/users"
-
-// Vervang de huidige export default functie met deze:
-export default async function UserDetailPage({ params }: { params: { id: string } }) {
-  // Haal gebruiker op van Supabase
-  const user = await getUserById(params.id)
-
-  // De rest van de functie blijft hetzelfde, maar gebruik de opgehaalde gebruiker
-  // in plaats van de hardcoded data
-
-  // De rest van de code blijft hetzelfde
+// Definieer het type voor de gebruiker
+interface User {
+  id: string
+  name: string
+  username: string
+  email: string
+  avatar: string
+  role: string
+  phone: string
+  website: string
+  registeredDate: string
+  lastActive: string
+  purchases: number
+  listings: number
+  totalPurchases: number
+  totalSales: number
+  address: {
+    street: string
+    city: string
+    postalCode: string
+    country: string
+  }
+  preferences: {
+    notifications: boolean
+    newsletter: boolean
+    twoFactorAuth: boolean
+  }
+  membershipLevel: string
+  loginHistory: Array<{
+    date: string
+    ip: string
+    device: string
+  }>
+  recentSearches: string[]
+  notes: string
 }
 
+async function UserDetailPage({ params }: { params: { id: string } }) {
+  // Gebruik de supabaseAdmin client voor server-side operaties
+  const supabase = supabaseAdmin
+  
+  // Haal de gebruiker op uit Supabase
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('id', params.id)
+    .single()
+  
+  // Als er een fout is, toon dan een foutmelding
+  if (error) {
+    console.error("Error fetching user:", error)
+    return <div>Er is een fout opgetreden bij het ophalen van de gebruiker.</div>
+  }
+  
+  // Cast de data naar het User interface
+  const user = data as User
+  
+  // Als de gebruiker niet is gevonden, toon dan een melding
+  if (!user) {
+    return <div>Gebruiker niet gevonden.</div>
+  }
 
-  // Format date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return new Intl.DateTimeFormat("nl-NL", {
@@ -70,20 +99,21 @@ export default async function UserDetailPage({ params }: { params: { id: string 
           <CardContent className="p-6">
             <div className="flex flex-col items-center">
               <div className="relative h-32 w-32 rounded-full overflow-hidden mb-4">
-                <img src={user.avatar || "/placeholder.svg"} alt={user.name} className="object-cover" />
+                <Image
+                  src={user.avatar || "/placeholder.svg"}
+                  alt={user.name || "User avatar"}
+                  fill
+                  className="object-cover"
+                />
               </div>
-              <h2 className="text-2xl font-bold">{user.name}</h2>
-              <p className="text-gray-500">@{user.username}</p>
-
+              <h2 className="text-2xl font-bold">{user?.name}</h2>
+              <p className="text-gray-500">@{user?.username}</p>
+            
               <div className="mt-2 flex items-center">
                 <UserRoleDropdown userId={user.id} initialRole={user.role} />
               </div>
 
               <div className="mt-4 w-full">
-                <div className="flex items-center justify-between py-2 border-b">
-                  <span className="text-gray-500">Status</span>
-                  <span className="px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">Actief</span>
-                </div>
                 <div className="flex items-center justify-between py-2 border-b">
                   <span className="text-gray-500">Lid sinds</span>
                   <span>{new Date(user.registeredDate).toLocaleDateString("nl-NL")}</span>
@@ -108,17 +138,6 @@ export default async function UserDetailPage({ params }: { params: { id: string 
                     {user.address.city}, {user.address.country}
                   </span>
                 </div>
-              </div>
-
-              <div className="mt-6 flex gap-2 w-full">
-                <Button className="flex-1">
-                  <Mail className="h-4 w-4 mr-2" />
-                  E-mail
-                </Button>
-                <Button variant="outline" className="flex-1">
-                  <Edit className="h-4 w-4 mr-2" />
-                  Bewerken
-                </Button>
               </div>
             </div>
           </CardContent>
@@ -275,7 +294,7 @@ export default async function UserDetailPage({ params }: { params: { id: string 
                 <CardContent>
                   <div className="mb-6">
                     <h3 className="text-lg font-medium mb-3">Activiteitsoverzicht</h3>
-                    <UserActivityChart />
+                    <UserActivityChart userId={user.id} />
                   </div>
 
                   <Separator className="my-6" />
@@ -475,3 +494,4 @@ export default async function UserDetailPage({ params }: { params: { id: string 
   )
 }
 
+export default UserDetailPage
