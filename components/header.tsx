@@ -19,7 +19,7 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-10">
+    <header className="z-10">
       {/* Logo/Banner Area */}
       <div className="bg-background border-b border-border/40">
         <div className="container mx-auto flex justify-center items-center py-6 px-4">

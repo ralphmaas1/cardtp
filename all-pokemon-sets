@@ -1,0 +1,221 @@
+﻿### Key Points
+- Research suggests that the oldest Pokémon TCG set is likely the "Base Set" from 1995 in Japan, but it seems to be missing from your list, which starts at 1996 with sets like "Chansey" and "Dragonite".
+- The evidence leans toward the need for further analysis of Japanese releases, as the 1999 "Base Set" is the oldest in the English market and appears in your list, possibly mislabeled.
+- It seems likely that your list includes sets from 1996 onwards, but the 1995 "Base Set" might need separate investigation.
+
+---
+
+### Updated List as CSV
+Here is the updated list of Pokémon card sets formatted as a CSV file, which you can copy and save for database import. The columns are **Year**, **Set Name**, **Featured Card**, **Card Count**, and **Release Date**, based on your provided list.
+
+| Year | Set Name               | Featured Card       | Card Count | Release Date    |
+|------|-----------------------|---------------------|------------|-----------------|
+| 2025 | Journey Together      |                     | 0          | 28th March 2025 |
+| 2025 | Hot Wind Arena        |                     | 0          | 14th March 2025 |
+| 2025 | Iron Thorns ex        | Iron Thorns ex      | 102        | 7th March 2025  |
+| 2025 | Marnie's Morpeko      | Marnie's Morpeko    | 21         | 21st February 2025 |
+| 2025 | Steven's Beldum       | Steven's Beldum     | 21         | 21st February 2025 |
+| 2025 | Unfair Stamp          | Unfair Stamp        | 95         | 14th February 2025 |
+| 2025 | N's Reshiram          | N's Reshiram        | 132        | 24th January 2025 |
+| 2025 | Tatsugiri             | Tatsugiri           | 53         | 24th January 2025 |
+| 2025 | Umbreon ex            | Umbreon ex          | 180        | 17th January 2025 |
+| 2025 | Sprigatito            | Sprigatito          | 115        | 17th January 2025 |
+| 2025 | Budew                 | Budew               | 223        | 17th January 2025 |
+| 2024 | Eevee ex              | Eevee ex            | 237        | 6th December 2024 |
+| 2024 | Dragonite             | Dragonite           | 15         | 4th December 2024 |
+| 2024 | Black Belt's Training | Black Belt's Training | 175      | 22nd November 2024 |
+| 2024 | Jasmine's Gaze        | Jasmine's Gaze      | 268        | 8th November 2024 |
+| 2024 | Pikachu ex            | Pikachu ex          | 138        | 18th October 2024 |
+| 2024 | Briar                 | Briar               | 194        | 13th September 2024 |
+| 2024 | Lisia's Appeal        | Lisia's Appeal      | 94         | 13th September 2024 |
+| 2024 | Mimikyu               | Mimikyu             | 36         | 30th August 2024 |
+| 2024 | Sylveon ex            | Sylveon ex          | 25         | 30th August 2024 |
+| 2024 | Ceruledge ex          | Ceruledge ex        | 25         | 30th August 2024 |
+| 2024 | Prime Catcher         | Prime Catcher       | 95         | 14th August 2024 |
+| 2024 | Dusclops              | Dusclops            | 108        | 2nd August 2024 |
+| 2024 | Terapagos ex          | Terapagos ex        | 135        | 19th July 2024 |
+| 2024 | Crispin               | Crispin             | 52         | 19th July 2024 |
+| 2024 | Kingambit             | Kingambit           | 140        | 21st June 2024 |
+| 2024 | Pecharunt ex          | Pecharunt ex        | 94         | 7th June 2024 |
+| 2024 | Carmine               | Carmine             | 255        | 24th May 2024 |
+| 2024 | Moltres               | Moltres             | 22         | 17th May 2024 |
+| 2024 | Frigibax              | Frigibax            | 20         | 17th May 2024 |
+| 2024 | Beach Court           | Beach Court         | 24         | 1st May 2024 |
+| 2024 | Teal Mask Ogerpon ex  | Teal Mask Ogerpon ex| 133        | 26th April 2024 |
+| 2024 | Sinistcha ex          | Sinistcha ex        | 96         | 22nd March 2024 |
+| 2024 | Iron Leaves ex        | Iron Leaves ex      | 252        | 22nd March 2024 |
+| 2024 | Picnicker             | Picnicker           | 98         | 8th March 2024 |
+| 2024 | Super Rod             | Super Rod           | 87         | 14th February 2024 |
+| 2024 | Nemona                | Nemona              | 264        | 26th January 2024 |
+| 2024 | Raging Bolt ex        | Raging Bolt ex      | 100        | 26th January 2024 |
+| 2024 | Iron Crown ex         | Iron Crown ex       | 100        | 26th January 2024 |
+| 2024 | Professor Sada's Vitality | Professor Sada's Vitality | 53 | 26th January 2024 |
+| 2024 | Professor Turo's Scenario | Professor Turo's Scenario | 53 | 26th January 2024 |
+| 2023 | Mew ex                | Mew ex              | 360        | 1st December 2023 |
+| 2023 | Bulbasaur             | Bulbasaur           | 35         | 17th November 2023 |
+| 2023 | Charmander            | Charmander          | 34         | 17th November 2023 |
+| 2023 | Squirtle              | Squirtle            | 34         | 17th November 2023 |
+| 2023 | Bulbasaur             | Bulbasaur           | 52         | 10th November 2023 |
+| 2023 | Parasol Lady          | Parasol Lady        | 309        | 3rd November 2023 |
+| 2023 | Roaring Moon ex       | Roaring Moon ex     | 95         | 27th October 2023 |
+| 2023 | Iron Valiant ex       | Iron Valiant ex     | 95         | 27th October 2023 |
+| 2023 | Sun Seed              | Sun Seed            | 34         | 20th October 2023 |
+| 2023 | Scorching Charcoal    | Scorching Charcoal  | 34         | 20th October 2023 |
+| 2023 | Drops in the Ocean    | Drops in the Ocean  | 34         | 20th October 2023 |
+| 2023 | Poliwag               | Poliwag             | 48         | 29th September 2023 |
+| 2023 | Giovanni's Charisma   | Giovanni's Charisma | 235        | 22nd September 2023 |
+| 2023 | Gholdengo ex          | Gholdengo ex        | 92         | 22nd September 2023 |
+| 2023 | Skeledirge ex         | Skeledirge ex       | 22         | 22nd September 2023 |
+| 2023 | Mewtwo ex             | Mewtwo ex           | 22         | 22nd September 2023 |
+| 2023 | Shuppet               | Shuppet             | 30         | 1st September 2023 |
+| 2023 | Charizard ex          | Charizard ex        | 269        | 11th August 2023 |
+| 2023 | Forest Seal Stone     | Forest Seal Stone   | 166        | 2nd August 2023 |
+| 2023 | Pidgeot ex            | Pidgeot ex          | 141        | 28th July 2023 |
+| 2023 | Pikachu ex            | Pikachu ex          | 32         | 28th July 2023 |
+| 2023 | Radiant Charizard     | Radiant Charizard   | 38         | 28th July 2023 |
+| 2023 | Tandemaus             | Tandemaus           | 15         | 27th July 2023 |
+| 2023 | Clefable ex           | Clefable ex         | 139        | 7th July 2023 |
+| 2023 | Erika's Invitation    | Erika's Invitation  | 210        | 16th June 2023 |
+| 2023 | Iono                  | Iono                | 326        | 9th June 2023 |
+| 2023 | Toedscruel ex         | Toedscruel ex       | 7          | 19th May 2023 |
+| 2023 | Chien-Pao ex          | Chien-Pao ex        | 99         | 14th April 2023 |
+| 2023 | Ting-Lu ex            | Ting-Lu ex          | 99         | 14th April 2023 |
+| 2023 | Miriam                | Miriam              | 313        | 31st March 2023 |
+| 2023 | Basic Psychic Energy  | Basic Psychic Energy| 40         | 31st March 2023 |
+| 2023 | Pawmot                | Pawmot              | 24         | 24th March 2023 |
+| 2023 | Meowscarada ex        | Meowscarada ex      | 103        | 10th March 2023 |
+| 2023 | Cram-o-matic          | Cram-o-matic        | 154        | 17th February 2023 |
+| 2023 | Origin Forme Palkia VSTAR | Origin Forme Palkia VSTAR | 255 | 20th January 2023 |
+| 2023 | Koraidon ex           | Koraidon ex         | 116        | 20th January 2023 |
+| 2023 | Miraidon ex           | Miraidon ex         | 108        | 20th January 2023 |
+| 2023 | Lucario ex            | Lucario ex          | 26         | 20th January 2023 |
+| 2023 | Ampharos ex           | Ampharos ex         | 24         | 20th January 2023 |
+| 2023 | Mimikyu ex            | Mimikyu ex          | 26         | 20th January 2023 |
+| 2023 | Switch                | Switch              | 28         | 20th January 2023 |
+| 2023 | Oddish                | Oddish              | 254        | 6th January 2023 |
+| 2022 | Arceus VSTAR          | Arceus VSTAR        | 262        | 2nd December 2022 |
+| 2022 | Live Code Card (Cyclizar ex Box) | Live Code Card | 93 | 25th November 2022 |
+| 2022 | Pikachu               | Pikachu             | 258        | 18th November 2022 |
+| 2022 | Lugia VSTAR           | Lugia VSTAR         | 262        | 11th November 2022 |
+| 2022 | Switch                | Switch              | 171        | 11th November 2022 |
+| 2022 | Charizard V           | Charizard V         | 32         | 4th November 2022 |
+| 2022 | Radiant Eevee         | Radiant Eevee       | 28         | 28th October 2022 |
+| 2022 | Unown VSTAR           | Unown VSTAR         | 125        | 21st October 2022 |
+| 2022 | Hisuian Zoroark VSTAR | Hisuian Zoroark VSTAR | 265 | 9th September 2022 |
+| 2022 | Altaria               | Altaria             | 94         | 2nd September 2022 |
+| 2022 | Pumpkaboo             | Pumpkaboo           | 30         | 1st September 2022 |
+| 2022 | Rotom V               | Rotom V             | 6          | 5th August 2022 |
+| 2022 | Tynamo                | Tynamo              | 15         | 3rd August 2022 |
+| 2022 | Giratina VSTAR        | Giratina VSTAR      | 127        | 15th July 2022 |
+| 2022 | Zeraora VSTAR         | Zeraora VSTAR       | 21         | 15th July 2022 |
+| 2022 | Deoxys VSTAR          | Deoxys VSTAR        | 21         | 15th July 2022 |
+| 2022 | Mewtwo V              | Mewtwo V            | 109        | 1st July 2022 |
+| 2022 | Conkeldurr V          | Conkeldurr V        | 102        | 17th June 2022 |
+| 2022 | Origin Forme Dialga V | Origin Forme Dialga V | 271 | 27th May 2022 |
+| 2022 | Arezu                 | Arezu               | 99         | 13th May 2022 |
+| 2022 | Adaman                | Adaman              | 88         | 8th April 2022 |
+| 2022 | Irida                 | Irida               | 88         | 8th April 2022 |
+| 2022 | Wooloo                | Wooloo              | 25         | 18th March 2022 |
+| 2022 | Arceus V              | Arceus V            | 252        | 25th February 2022 |
+| 2022 | Kamado                | Kamado              | 93         | 25th February 2022 |
+| 2022 | Lucario VSTAR         | Lucario VSTAR       | 22         | 25th February 2022 |
+| 2022 | Darkrai V             | Darkrai V           | 21         | 25th February 2022 |
+| 2022 | Roseanne's Backup     | Roseanne's Backup   | 127        | 14th January 2022 |
+| 2022 | Professor's Research - Professor Rowan | Professor's Research - Professor Rowan | 38 | 14th January 2022 |
+| 2021 | Marnie's Pride        | Marnie's Pride      | 430        | 17th December 2021 |
+| 2021 | Café Master           | Café Master         | 293        | 3rd December 2021 |
+| 2021 | Mew VMAX              | Mew VMAX            | 300        | 12th November 2021 |
+| 2021 | Zamazenta V           | Zamazenta V         | 30         | 5th November 2021 |
+| 2021 | Pikachu V             | Pikachu V           | 16         | 22nd October 2021 |
+| 2021 | Pikachu               | Pikachu             | 38         | 22nd October 2021 |
+| 2021 | Charizard             | Charizard           | 25         | 22nd October 2021 |
+| 2021 | Pikachu               | Pikachu             | 69         | 8th October 2021 |
+| 2021 | Elesa's Sparkle       | Elesa's Sparkle     | 129        | 24th September 2021 |
+| 2021 | Umbreon VMAX          | Umbreon VMAX        | 258        | 27th August 2021 |
+| 2021 | Professor Burnet      | Professor Burnet    | 13         | 20th August 2021 |
+| 2021 | Pikachu V             | Pikachu V           | 78         | 9th July 2021 |
+| 2021 | Duraludon VMAX        | Duraludon VMAX      | 90         | 9th July 2021 |
+| 2021 | Dragonite V           | Dragonite V         | 90         | 9th July 2021 |
+| 2021 | Shadow Rider Calyrex V| Shadow Rider Calyrex V | 255 | 18th June 2021 |
+| 2021 | Eevee                 | Eevee               | 101        | 28th May 2021 |
+| 2021 | Flareon VMAX          | Flareon VMAX        | 8          | 28th May 2021 |
+| 2021 | Gengar VMAX           | Gengar VMAX         | 21         | 28th May 2021 |
+| 2021 | Inteleon V            | Inteleon V          | 24         | 28th May 2021 |
+| 2021 | Ice Rider Calyrex V   | Ice Rider Calyrex V | 95         | 23rd April 2021 |
+| 2021 | Shadow Rider Calyrex V| Shadow Rider Calyrex V | 95 | 23rd April 2021 |
+| 2021 | Suspicious Food Tin   | Suspicious Food Tin | 6          | 23rd April 2021 |
+| 2021 | Rapid Strike Urshifu V| Rapid Strike Urshifu V | 205 | 19th March 2021 |
+| 2021 | Galarian Zapdos V     | Galarian Zapdos V   | 96         | 19th March 2021 |
+| 2021 | Ditto V               | Ditto V             | 208        | 1st March 2021 |
+| 2021 | Pikachu               | Pikachu             | 50         | 9th February 2021 |
+| 2021 | Rapid Strike Style Mustard | Rapid Strike Style Mustard | 91 | 22nd January 2021 |
+| 2021 | Single Strike Style Mustard | Single Strike Style Mustard | 91 | 22nd January 2021 |
+| 2021 | Single Strike Urshifu V | Single Strike Urshifu V | 33 | 22nd January 2021 |
+| 2020 | Venusaur V            | Venusaur V          | 21         | 4th December 2020 |
+| 2020 | Blastoise V           | Blastoise V         | 20         | 4th December 2020 |
+| 2020 | Lapras V              | Lapras V            | 330        | 20th November 2020 |
+| 2020 | Pikachu VMAX          | Pikachu VMAX        | 220        | 13th November 2020 |
+| 2020 | Cramorant VMAX        | Cramorant VMAX      | 8          | 23rd October 2020 |
+| 2020 | Charizard VMAX        | Charizard VMAX      | 102        | 25th September 2020 |
+| 2020 | Alakazam V            | Alakazam V          | 121        | 18th September 2020 |
+| 2020 | Scorbunny on the Ball | Scorbunny on the Ball | 5 | 11th September 2020 |
+| 2020 | Eternatus VMAX        | Eternatus VMAX      | 222        | 14th August 2020 |
+| 2020 | Pikachu VMAX          | Pikachu VMAX        | 9          | 13th July 2020 |
+| 2020 | Zamazenta             | Zamazenta           | 94         | 10th July 2020 |
+| 2020 | Venusaur V            | Venusaur V          | 127        | 10th July 2020 |
+| 2020 | Scizor VMAX           | Scizor VMAX         | 119        | 5th June 2020 |
+| 2020 | Sonia                 | Sonia               | 229        | 1st May 2020 |
+| 2020 | Gardevoir V           | Gardevoir V         | 86         | 24th April 2020 |
+| 2020 | Charizard V           | Charizard V         | 61         | 27th March 2020 |
+| 2020 | Ludicolo              | Ludicolo            | 115        | 6th March 2020 |
+| 2020 | Zamazenta V           | Zamazenta V         | 255        | 7th February 2020 |
+| 2020 | Cinderace VMAX        | Cinderace VMAX      | 86         | 7th February 2020 |
+| 2019 | Zamazenta             | Zamazenta           | 7          | 27th December 2019 |
+| 2019 | Green's Exploration   | Green's Exploration | 24         | 6th December 2019 |
+| 2019 | Zacian V              | Zacian V            | 75         | 6th December 2019 |
+| 2019 | Indeedee V            | Indeedee V          | 75         | 6th December 2019 |
+| 2019 | Turtonator            | Turtonator          | 117        | 29th November 2019 |
+| 2019 | Solgaleo GX           | Solgaleo GX         | 0          | 22nd November 2019 |
+| 2019 | Naganadel GX          | Naganadel GX        | 0          | 22nd November 2019 |
+| 2019 | Victini ◇             | Victini ◇           | 0          | 22nd November 2019 |
+| 2019 | Pikachu & Zekrom GX   | Pikachu & Zekrom GX | 0          | 22nd November 2019 |
+| 2019 | Toxtricity V          | Toxtricity V        | 353        | 17th November 2019 |
+| 2019 | Marnie                | Marnie              | 385        | 15th November 2019 |
+| 2019 | Pikachu               | Pikachu             | 285        | 1st November 2019 |
+| 2019 | Charmander            | Charmander          | 80         | 30th October 2019 |
+| 2019 | Alolan Meowth         | Alolan Meowth       | 12         | 15th October 2019 |
+| 2019 | Sword & Shield Products |                 | 0          | 10th October 2019 |
+| 2019 | Taipei's Pikachu      | Taipei's Pikachu    | 26         | 9th October 2019 |
+| 2019 | Computer Search       | Computer Search     | 48         | 4th October 2019 |
+| 2019 | Eevee GX              | Eevee GX            | 235        | 4th October 2019 |
+| 2019 | Arceus & Dialga & Palkia GX | Arceus & Dialga & Palkia GX | 117 | 6th September 2019 |
+| 2019 | Cynthia               | Cynthia             | 196        | 23rd August 2019 |
+| 2019 | Celebi                | Celebi              | 300        | 2nd August 2019 |
+| 2019 | Lillie's Poké Doll    | Lillie's Poké Doll  | 75         | 2nd August 2019 |
+| 2019 | Phione                | Phione              | 80         | 5th July 2019 |
+| 2019 | Jirachi GX            | Jirachi GX          | 31         | 31st May 2019 |
+| 2019 | Mewtwo & Mew GX       | Mewtwo & Mew GX     | 115        | 31st May 2019 |
+| 2019 | Reshiram & Charizard GX | Reshiram & Charizard GX | 267 | 3rd May 2019 |
+| 2019 | Rowlet & Alolan Exeggutor GX | Rowlet & Alolan Exeggutor GX | 69 | 26th April 2019 |
+| 2019 | Psyduck               | Psyduck             | 25         | 26th April 2019 |
+| 2019 | Raichu & Alolan Raichu GX | Raichu & Alolan Raichu GX | 69 | 5th April 2019 |
+| 2019 | Detective Pikachu     | Detective Pikachu   | 27         | 29th March 2019 |
+| 2019 | Pokémon Center Lady   | Pokémon Center Lady | 51         | 15th March 2019 |
+| 2019 | Professor Elm's Lecture | Professor Elm's Lecture | 29 | 1st March 2019 |
+| 2019 | Welder                | Welder              | 116        | 1st March 2019 |
+| 2019 | Lucario & Melmetal GX | Lucario & Melmetal GX | 69 | 1st February 2019 |
+| 2019 | Pikachu & Zekrom GX   | Pikachu & Zekrom GX | 228        | 1st February 2019 |
+| 2019 | Misty's Determination | Misty's Determination | 31 | 25th January 2019 |
+| 2019 | Janine                | Janine              | 70         | 11th January 2019 |
+| 2018 | Electrode             | Electrode           | 118        | 7th December 2018 |
+| 2018 | Choice Band           | Choice Band         | 35         | 7th December 2018 |
+| 2018 | Eevee GX              | Eevee GX            | 38         | 23rd November 2018 |
+| 2018 | Town Map              | Town Map            | 0          | 18th November 2018 |
+| 2018 | Xurkitree GX          | Xurkitree GX        | 0          | 18th November 2018 |
+| 2018 | Garbodor              | Garbodor            | 0          | 18th November 2018 |
+| 2018 | Buzzwole GX           | Buzzwole GX         | 0          | 18th November 2018 |
+| 2018 | Altaria GX            | Altaria GX          | 250        | 2nd November 2018 |
+| 2018 | Sightseer             | Sightseer           | 280        | 2nd November 2018 |
+| 2018 | Dratini               | Dratini             | 12         | 19th October 2018 |
+| 2018 | Jirachi               | Jirachi             | 65         | 5th October 2018 |
+| 201

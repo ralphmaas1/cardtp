@@ -1,0 +1,19 @@
+﻿series_data = {
+    "Scarlet & Violet Series": {"base_set": "Scarlet & Violet", "description": "Based on Generation IX games Scarlet & Violet."},
+    "Sword & Shield Series": {"base_set": "Sword & Shield", "description": "Based on Generation VIII games Sword & Shield."},
+    "Sun & Moon Series": {"base_set": "Sun & Moon", "description": "Based on Generation VII games Sun & Moon."},
+    "XY Series": {"base_set": "XY", "description": "Based on Generation VI games X & Y."},
+    "Black & White Series": {"base_set": "Black & White", "description": "Based on Generation V games Black & White."},
+    "HeartGold & SoulSilver Series": {"base_set": "HeartGold & SoulSilver", "description": "Based on Generation IV remakes HeartGold & SoulSilver."},
+    "Platinum Series": {"base_set": "Platinum", "description": "Part of Generation IV, focusing on Platinum game elements."},
+    "Diamond & Pearl Series": {"base_set": "Diamond & Pearl", "description": "Based on Generation IV games Diamond & Pearl."},
+    "EX Series": {"base_set": "Ruby & Sapphire", "description": "Introduced Pokémon-ex mechanics, based on Generation III."},
+    "e-Card Series": {"base_set": "Expedition", "description": "Introduced e-Reader compatibility."},
+    "Legendary Series": {"base_set": "Legendary Collection", "description": "Special reprint series with reverse holos."},
+    "Neo Series": {"base_set": "Neo Genesis", "description": "Introduced Generation II Pokémon."},
+    "Gym Series": {"base_set": "Gym Heroes", "description": "Focused on Gym Leader Pokémon."},
+    "Original Series": {"base_set": "Base Set", "description": "The first Pokémon TCG series from 1999."},
+    "McDonald’s Series": {"base_set": "McDonald’s 2011", "description": "Promotional sets from McDonald’s Happy Meals."},
+    "POP Series": {"base_set": "POP Series 1", "description": "Pokémon Organized Play promotional sets."},
+    "Promos Series": {"base_set": "Wizards Black Star Promos", "description": "Various promotional cards across eras."}
+}

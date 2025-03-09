@@ -1,0 +1,5 @@
+﻿cloudflare_token = ODQvCLhyV0LkT7p10Twc4RuPdzohA0NeQ5frC1RM
+
+curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
+     -H "Authorization: Bearer ODQvCLhyV0LkT7p10Twc4RuPdzohA0NeQ5frC1RM" \
+     -H "Content-Type:application/json"
