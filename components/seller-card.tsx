@@ -6,8 +6,8 @@ import type { CardListing } from "@/types/card-listing"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
 import { Heart, ShoppingCart, RefreshCw, Gavel, RotateCw, MessageCircle } from "lucide-react"
+import { Separator } from "@radix-ui/react-dropdown-menu"
 
 interface SellerCardProps {
   listing: CardListing

@@ -1,9 +1,5 @@
 "use client"
-
 import type { CardListing } from "@/types/card-listing"
-import { ExampleCard } from "@/components/example-card"
-import { SellerCard } from "@/components/seller-card"
-import { SellerInfo } from "@/components/seller-info"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
@@ -13,7 +9,10 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+} from "./ui/breadcrumb"
+import { SellerInfo } from "./seller-info"
+import { SellerCard } from "./seller-card"
+import { ExampleCard } from "./example-card"
 
 interface CardListingDetailProps {
   listing: CardListing

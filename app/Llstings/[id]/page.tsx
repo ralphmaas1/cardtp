@@ -1,8 +1,8 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { CardListingDetail } from "@/components/card-listing-detail"
 import { notFound } from "next/navigation"
 import { getCardListingById } from "@/data/card-listings"
+import { CardListingDetail } from "@/components/card-listing-detail"
 
 export default function CardListingPage({ params }: { params: { id: string } }) {
   const listing = getCardListingById(params.id)

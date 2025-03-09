@@ -2,7 +2,7 @@ import Image from "next/image"
 import type { CardListing } from "@/types/card-listing"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "@radix-ui/react-dropdown-menu"
 
 interface ExampleCardProps {
   listing: CardListing

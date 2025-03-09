@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge"
 import type { CardListing } from "@/types/card-listing"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "./ui/separator"
 import { Star, MapPin, Truck, Clock, Shield } from "lucide-react"
 
 interface SellerInfoProps {
