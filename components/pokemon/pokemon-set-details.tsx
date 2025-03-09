@@ -49,6 +49,13 @@ export function PokemonSetDetails({
           This is a placeholder for the set description. Here you would include information about the set, its special
           features, rare cards, and other relevant details.
         </p>
+        <div className="mt-4">
+          <Button asChild>
+            <Link href={`/categories/tgp/pokemon/sets/${set.id}/listings`} className="flex items-center gap-2">
+              View All Cards For Sale
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <div className="mb-8">
