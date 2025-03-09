@@ -351,3 +351,7 @@ export function getCardListings(setId: string): CardListing[] {
   return cardListings
 }
 
+export function getCardListingById(id: string): CardListing | undefined {
+  return cardListings.find((listing) => listing.id === id)
+}
+
