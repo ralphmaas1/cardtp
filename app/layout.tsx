@@ -2,6 +2,8 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
+import { AuthProvider } from "@/components/auth-provider"
+import { ThemeProvider } from "@/components/theme-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -18,8 +20,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="min-h-screen">
       <body className={`${inter.className} min-h-screen flex flex-col`}>
-        <div className="flex-grow flex flex-col">{children}</div>
+        <AuthProvider>
+          <ThemeProvider attribute="class" defaultTheme="light">
+            <div className="flex-grow flex flex-col">{children}</div>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   )
 }
+

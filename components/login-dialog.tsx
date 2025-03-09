@@ -2,8 +2,8 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import {
   Dialog,
   DialogContent,
@@ -12,9 +12,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { AtSign, User, Lock, Mail, AlertCircle } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { supabase } from "@/lib/supabase"
+import { useToast } from "@/hooks/use-toast"
 
 interface LoginDialogProps {
   open: boolean
@@ -23,190 +26,179 @@ interface LoginDialogProps {
 }
 
 export function LoginDialog({ open, onOpenChange, initialMode = "login" }: LoginDialogProps) {
-  const [isLogin, setIsLogin] = useState(initialMode === "login")
-  const [formData, setFormData] = useState({
-    name: "",
-    username: "",
-    email: "",
-    confirmEmail: "",
-    password: "",
-  })
-  const [errors, setErrors] = useState({
-    email: "",
-    confirmEmail: "",
-  })
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [name, setName] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [activeTab, setActiveTab] = useState(initialMode)
+  const router = useRouter()
+  const { toast } = useToast()
 
-  // Update mode when dialog opens or initialMode changes
-  useEffect(() => {
-    if (open) {
-      setIsLogin(initialMode === "login")
-      // Reset form data and errors when dialog opens
-      setFormData({
-        name: "",
-        username: "",
-        email: "",
-        confirmEmail: "",
-        password: "",
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       })
-      setErrors({
-        email: "",
-        confirmEmail: "",
-      })
-    }
-  }, [open, initialMode])
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-
-    // Validate email confirmation
-    if (name === "confirmEmail" || name === "email") {
-      if (name === "confirmEmail" && value !== formData.email) {
-        setErrors((prev) => ({ ...prev, confirmEmail: "Emails do not match" }))
-      } else if (name === "email" && formData.confirmEmail && value !== formData.confirmEmail) {
-        setErrors((prev) => ({ ...prev, confirmEmail: "Emails do not match" }))
-      } else {
-        setErrors((prev) => ({ ...prev, confirmEmail: "" }))
+      if (error) {
+        throw error
       }
+
+      toast({
+        title: "Ingelogd!",
+        description: "Je bent succesvol ingelogd.",
+      })
+
+      onOpenChange(false)
+      router.refresh()
+    } catch (error: any) {
+      toast({
+        title: "Fout bij inloggen",
+        description: error.message || "Er is een fout opgetreden bij het inloggen.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
 
-    // Basic validation
-    if (!isLogin) {
-      if (formData.email !== formData.confirmEmail) {
-        setErrors((prev) => ({ ...prev, confirmEmail: "Emails do not match" }))
-        return
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            name,
+          },
+        },
+      })
+
+      if (error) {
+        throw error
       }
+
+      toast({
+        title: "Account aangemaakt!",
+        description: "Controleer je e-mail om je account te bevestigen.",
+      })
+
+      setActiveTab("login")
+    } catch (error: any) {
+      toast({
+        title: "Fout bij registreren",
+        description: error.message || "Er is een fout opgetreden bij het registreren.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
     }
-
-    // Submit form logic would go here
-    console.log("Form submitted:", formData)
-
-    // Close dialog after successful submission
-    onOpenChange(false)
   }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>{isLogin ? "Log in" : "Sign up"}</DialogTitle>
-          <DialogDescription>
-            {isLogin
-              ? "Enter your credentials to access your account."
-              : "Create an account to start collecting cards."}
-          </DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-4 py-4">
-            {!isLogin && (
-              <>
+        <Tabs defaultValue={activeTab} onValueChange={setActiveTab as any}>
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="login">Inloggen</TabsTrigger>
+            <TabsTrigger value="signup">Registreren</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="login">
+            <form onSubmit={handleLogin}>
+              <DialogHeader>
+                <DialogTitle>Inloggen</DialogTitle>
+                <DialogDescription>Log in op je account om toegang te krijgen tot alle functies.</DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="name">Full Name</Label>
-                  <div className="relative">
-                    <User className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="John Doe"
-                      className="pl-8"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="grid gap-2">
-                  <Label htmlFor="username">Username</Label>
-                  <div className="relative">
-                    <AtSign className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="username"
-                      name="username"
-                      value={formData.username}
-                      onChange={handleInputChange}
-                      placeholder="johndoe"
-                      className="pl-8"
-                      required
-                    />
-                  </div>
-                  <p className="text-xs text-muted-foreground">This will be your public display name</p>
-                </div>
-              </>
-            )}
-
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <div className="relative">
-                <Mail className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="example@email.com"
-                  className="pl-8"
-                  required
-                />
-              </div>
-            </div>
-
-            {!isLogin && (
-              <div className="grid gap-2">
-                <Label htmlFor="confirmEmail">Confirm Email</Label>
-                <div className="relative">
-                  <Mail className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Label htmlFor="email">E-mail</Label>
                   <Input
-                    id="confirmEmail"
-                    name="confirmEmail"
+                    id="email"
                     type="email"
-                    value={formData.confirmEmail}
-                    onChange={handleInputChange}
-                    placeholder="example@email.com"
-                    className={`pl-8 ${errors.confirmEmail ? "border-destructive" : ""}`}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="naam@voorbeeld.nl"
                     required
                   />
                 </div>
-                {errors.confirmEmail && (
-                  <div className="flex items-center text-xs text-destructive">
-                    <AlertCircle className="h-3 w-3 mr-1" />
-                    {errors.confirmEmail}
-                  </div>
-                )}
+                <div className="grid gap-2">
+                  <Label htmlFor="password">Wachtwoord</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
               </div>
-            )}
+              <DialogFooter>
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? "Bezig met inloggen..." : "Inloggen"}
+                </Button>
+              </DialogFooter>
+            </form>
+          </TabsContent>
 
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Lock className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  className="pl-8"
-                  required
-                />
+          <TabsContent value="signup">
+            <form onSubmit={handleSignUp}>
+              <DialogHeader>
+                <DialogTitle>Registreren</DialogTitle>
+                <DialogDescription>
+                  Maak een nieuw account aan om toegang te krijgen tot alle functies.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="name">Naam</Label>
+                  <Input
+                    id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Jouw naam"
+                    required
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="email-register">E-mail</Label>
+                  <Input
+                    id="email-register"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="naam@voorbeeld.nl"
+                    required
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="password-register">Wachtwoord</Label>
+                  <Input
+                    id="password-register"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    minLength={6}
+                  />
+                  <p className="text-xs text-gray-500">Wachtwoord moet minimaal 6 tekens bevatten</p>
+                </div>
               </div>
-              {!isLogin && <p className="text-xs text-muted-foreground">Password must be at least 8 characters long</p>}
-            </div>
-          </div>
-          <DialogFooter className="flex flex-col sm:flex-row gap-2">
-            <Button type="button" variant="outline" className="sm:w-full" onClick={() => setIsLogin(!isLogin)}>
-              {isLogin ? "Create account" : "Log in instead"}
-            </Button>
-            <Button type="submit" className="sm:w-full">
-              {isLogin ? "Log in" : "Sign up"}
-            </Button>
-          </DialogFooter>
-        </form>
+              <DialogFooter>
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? "Bezig met registreren..." : "Registreren"}
+                </Button>
+              </DialogFooter>
+            </form>
+          </TabsContent>
+        </Tabs>
       </DialogContent>
     </Dialog>
   )
