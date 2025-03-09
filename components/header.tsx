@@ -19,7 +19,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useRouter } from "next/navigation"
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "@/components/ui/use-toast"
+
+// Definieer interfaces voor de user_roles query
+interface Role {
+  name: string
+}
+
+interface UserRoleResult {
+  role: Role
+}
 
 export function Header() {
   const [showLoginDialog, setShowLoginDialog] = useState(false)
@@ -47,7 +56,10 @@ export function Header() {
             .eq("user_id", session.user.id)
             .single()
 
-          if (!error && data?.role?.name === "admin") {
+          // Cast het resultaat naar het juiste type
+          const typedData = data as UserRoleResult | null
+          
+          if (!error && typedData?.role?.name === "admin") {
             setIsAdmin(true)
           }
         }
@@ -75,7 +87,10 @@ export function Header() {
           .eq("user_id", session.user.id)
           .single()
           .then(({ data, error }) => {
-            if (!error && data?.role?.name === "admin") {
+            // Cast het resultaat naar het juiste type
+            const typedData = data as UserRoleResult | null
+            
+            if (!error && typedData?.role?.name === "admin") {
               setIsAdmin(true)
             }
           })
