@@ -34,9 +34,9 @@ export default function PokemonSetListingsPage({ params }: { params: { setId: st
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
             <Button variant="outline" asChild className="mb-4">
-              <Link href={`/categories/tgp/pokemon/sets/${params.setId}`} className="flex items-center gap-2">
+              <Link href="/categories/tgp/pokemon" className="flex items-center gap-2">
                 <ChevronLeft className="h-4 w-4" />
-                Back to Set Details
+                Back to Pokémon Series
               </Link>
             </Button>
 

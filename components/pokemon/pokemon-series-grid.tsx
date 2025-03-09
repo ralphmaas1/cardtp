@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import { pokemonData } from "@/data/pokemon-data"
-// Import the new banner component
+// Import the banner component
 import { PokemonSeriesBanner } from "@/components/pokemon/pokemon-series-banner"
 
 export function PokemonSeriesGrid() {
@@ -52,10 +52,6 @@ export function PokemonSeriesGrid() {
           {/* Sets Grid */}
           {expandedSeries === series.id && (
             <div className="p-4">
-              {/* Add the banner component inside the expanded series section */}
-              {/* After this line:
-              {expandedSeries === series.id && (
-                <div className="p-4"> */}
               <PokemonSeriesBanner
                 seriesId={series.id}
                 name={series.name}
@@ -63,7 +59,7 @@ export function PokemonSeriesGrid() {
               />
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {series.sets.map((set) => (
-                  <Link href={`/categories/tgp/pokemon/sets/${set.id}`} key={set.id} className="group">
+                  <Link href={`/categories/tgp/pokemon/sets/${set.id}/listings`} key={set.id} className="group">
                     <Card className="overflow-hidden h-full transition-all hover:shadow-md hover:border-yellow-500/50">
                       <CardContent className="p-4">
                         <div className="flex items-center gap-3 mb-3">
