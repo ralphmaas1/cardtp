@@ -21,6 +21,18 @@ import { UserStatsCards } from "@/components/admin/user-stats-cards"
 import { UserRoleDropdown } from "@/components/admin/user-role-dropdown"
 import { getUsers, getUserStats } from "@/lib/users"
 
+// Definieer de User interface
+interface User {
+  id: string
+  name: string | null
+  email: string | null
+  avatarUrl: string | null
+  role: string
+  status: string
+  lastActive: string | null
+  createdAt: string
+}
+
 export default async function UsersPage() {
   // Haal gebruikers en statistieken op van Supabase
   const { users, totalCount } = await getUsers({ page: 1, limit: 10 })
@@ -53,7 +65,7 @@ export default async function UsersPage() {
   }
 
   // Function to calculate time since last active
-  const getTimeSince = (dateString: string) => {
+  const getTimeSince = (dateString: string | null) => {
     if (!dateString) return "Nooit"
     const date = new Date(dateString)
     const now = new Date()
@@ -130,123 +142,137 @@ export default async function UsersPage() {
                 </div>
               </div>
 
-              <div className="rounded-md border overflow-hidden">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Gebruiker</TableHead>
-                      <TableHead>Rol</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Verificatie</TableHead>
-                      <TableHead>Laatste activiteit</TableHead>
-                      <TableHead>Geregistreerd</TableHead>
-                      <TableHead>Activiteit</TableHead>
-                      <TableHead className="text-right">Acties</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {users.map((user) => (
-                      <TableRow key={user.id}>
-                        <TableCell>
-                          <div className="flex items-center gap-3">
-                            <div className="relative h-10 w-10 rounded-full overflow-hidden">
-                              <img
-                                src={user.avatarUrl || "/placeholder.svg?height=40&width=40"}
-                                alt={user.name || "Gebruiker"}
-                                className="object-cover"
-                              />
-                            </div>
-                            <div>
-                              <div className="font-medium">{user.name || "Onbekend"}</div>
-                              <div className="text-xs text-gray-500">{user.email || "Geen e-mail"}</div>
-                              <div className="text-xs text-gray-400">
-                                @{user.name ? user.name.toLowerCase().replace(/\s+/g, "") : "gebruiker"}
+              {users.length === 0 ? (
+                <div className="text-center py-12 border rounded-md">
+                  <UserIcon className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-1">Geen gebruikers gevonden</h3>
+                  <p className="text-gray-500 mb-4">Er zijn nog geen gebruikers geregistreerd in het systeem.</p>
+                  <Button>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Nieuwe gebruiker toevoegen
+                  </Button>
+                </div>
+              ) : (
+                <>
+                  <div className="rounded-md border overflow-hidden">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Gebruiker</TableHead>
+                          <TableHead>Rol</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead>Verificatie</TableHead>
+                          <TableHead>Laatste activiteit</TableHead>
+                          <TableHead>Geregistreerd</TableHead>
+                          <TableHead>Activiteit</TableHead>
+                          <TableHead className="text-right">Acties</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {users.map((user: User) => (
+                          <TableRow key={user.id}>
+                            <TableCell>
+                              <div className="flex items-center gap-3">
+                                <div className="relative h-10 w-10 rounded-full overflow-hidden">
+                                  <img
+                                    src={user.avatarUrl || "/placeholder.svg?height=40&width=40"}
+                                    alt={user.name || "Gebruiker"}
+                                    className="object-cover"
+                                  />
+                                </div>
+                                <div>
+                                  <div className="font-medium">{user.name || "Onbekend"}</div>
+                                  <div className="text-xs text-gray-500">{user.email || "Geen e-mail"}</div>
+                                  <div className="text-xs text-gray-400">
+                                    @{user.name ? user.name.toLowerCase().replace(/\s+/g, "") : "gebruiker"}
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <UserRoleDropdown userId={user.id} initialRole={user.role} />
-                        </TableCell>
-                        <TableCell>
-                          <span className={`px-2 py-1 rounded-full text-xs ${getStatusBadge(user.status)}`}>
-                            {user.status === "active"
-                              ? "Actief"
-                              : user.status === "inactive"
-                                ? "Inactief"
-                                : "Geschorst"}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <span className="flex items-center text-yellow-600">
-                            <UserX className="h-4 w-4 mr-1" />
-                            Onbekend
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <div className="text-sm">{getTimeSince(user.lastActive)}</div>
-                          <div className="text-xs text-gray-500">
-                            {user.lastActive
-                              ? new Date(user.lastActive).toLocaleTimeString("nl-NL", {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                })
-                              : "Onbekend"}
-                          </div>
-                        </TableCell>
-                        <TableCell>{formatDate(user.createdAt)}</TableCell>
-                        <TableCell>
-                          <div className="text-xs">
-                            <div>0 advertenties</div>
-                            <div>0 aankopen</div>
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex justify-end gap-2">
-                            <Button variant="ghost" size="icon" asChild>
-                              <Link href={`/admin/users/${user.id}`}>
-                                <ArrowUpRight className="h-4 w-4" />
-                              </Link>
-                            </Button>
-                            <Button variant="ghost" size="icon">
-                              <Mail className="h-4 w-4" />
-                            </Button>
-                            <Button variant="ghost" size="icon">
-                              <Ban className="h-4 w-4" />
-                            </Button>
-                            <Button variant="ghost" size="icon">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
+                            </TableCell>
+                            <TableCell>
+                              <UserRoleDropdown userId={user.id} initialRole={user.role} />
+                            </TableCell>
+                            <TableCell>
+                              <span className={`px-2 py-1 rounded-full text-xs ${getStatusBadge(user.status)}`}>
+                                {user.status === "active"
+                                  ? "Actief"
+                                  : user.status === "inactive"
+                                    ? "Inactief"
+                                    : "Geschorst"}
+                              </span>
+                            </TableCell>
+                            <TableCell>
+                              <span className="flex items-center text-yellow-600">
+                                <UserX className="h-4 w-4 mr-1" />
+                                Onbekend
+                              </span>
+                            </TableCell>
+                            <TableCell>
+                              <div className="text-sm">{getTimeSince(user.lastActive)}</div>
+                              <div className="text-xs text-gray-500">
+                                {user.lastActive
+                                  ? new Date(user.lastActive).toLocaleTimeString("nl-NL", {
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    })
+                                  : "Onbekend"}
+                              </div>
+                            </TableCell>
+                            <TableCell>{formatDate(user.createdAt)}</TableCell>
+                            <TableCell>
+                              <div className="text-xs">
+                                <div>0 advertenties</div>
+                                <div>0 aankopen</div>
+                              </div>
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <div className="flex justify-end gap-2">
+                                <Button variant="ghost" size="icon" asChild>
+                                  <Link href={`/admin/users/${user.id}`}>
+                                    <ArrowUpRight className="h-4 w-4" />
+                                  </Link>
+                                </Button>
+                                <Button variant="ghost" size="icon">
+                                  <Mail className="h-4 w-4" />
+                                </Button>
+                                <Button variant="ghost" size="icon">
+                                  <Ban className="h-4 w-4" />
+                                </Button>
+                                <Button variant="ghost" size="icon">
+                                  <MoreHorizontal className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
 
-              <div className="flex items-center justify-between mt-4">
-                <div className="text-sm text-gray-500">
-                  Toont 1-{users.length} van {totalCount} gebruikers
-                </div>
-                <div className="flex gap-1">
-                  <Button variant="outline" size="sm" disabled>
-                    Vorige
-                  </Button>
-                  <Button variant="outline" size="sm" className="bg-gray-100">
-                    1
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    2
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    3
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    Volgende
-                  </Button>
-                </div>
-              </div>
+                  <div className="flex items-center justify-between mt-4">
+                    <div className="text-sm text-gray-500">
+                      Toont 1-{users.length} van {totalCount} gebruikers
+                    </div>
+                    <div className="flex gap-1">
+                      <Button variant="outline" size="sm" disabled>
+                        Vorige
+                      </Button>
+                      <Button variant="outline" size="sm" className="bg-gray-100">
+                        1
+                      </Button>
+                      <Button variant="outline" size="sm">
+                        2
+                      </Button>
+                      <Button variant="outline" size="sm">
+                        3
+                      </Button>
+                      <Button variant="outline" size="sm">
+                        Volgende
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
