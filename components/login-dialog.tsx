@@ -51,13 +51,25 @@ export function LoginDialog({ open, onOpenChange, initialMode = "login" }: Login
         throw error
       }
 
+      // Controleer of de gebruiker een admin is
+      const user = data.user
+      
+      // Voor ontwikkelingsdoeleinden: beschouw bepaalde e-mailadressen als admin
+      const isAdmin = email.includes('admin') || email === 'ralphmaas1@gmail.com'
+      
       toast({
         title: "Ingelogd!",
         description: "Je bent succesvol ingelogd.",
       })
 
       onOpenChange(false)
-      router.refresh()
+      
+      // Redirect naar admin pagina als de gebruiker een admin is
+      if (isAdmin) {
+        router.push('/admin')
+      } else {
+        router.refresh()
+      }
     } catch (error: any) {
       console.error("Login error:", error)
       toast({

@@ -20,6 +20,7 @@ import Link from "next/link"
 import { UserStatsCards } from "@/components/admin/user-stats-cards"
 import { UserRoleDropdown } from "@/components/admin/user-role-dropdown"
 import { getUsers, getUserStats } from "@/lib/users"
+import { LogoutButton } from "@/components/logout-button"
 
 export default async function UsersPage() {
   // Haal gebruikers en statistieken op van Supabase
@@ -90,6 +91,7 @@ export default async function UsersPage() {
             <Plus className="h-4 w-4 mr-2" />
             Nieuwe gebruiker
           </Button>
+          <LogoutButton />
         </div>
       </div>
 
