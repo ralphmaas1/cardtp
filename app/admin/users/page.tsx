@@ -20,8 +20,6 @@ import Link from "next/link"
 import { UserStatsCards } from "@/components/admin/user-stats-cards"
 import { UserRoleDropdown } from "@/components/admin/user-role-dropdown"
 import { getUsers, getUserStats } from "@/lib/users"
-import { LogoutButton } from "@/components/logout-button"
-import { AuthStatus } from "@/components/auth-status"
 
 export default async function UsersPage() {
   // Haal gebruikers en statistieken op van Supabase
@@ -82,9 +80,6 @@ export default async function UsersPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Gebruikersbeheer</h1>
           <p className="text-gray-500">Beheer gebruikersaccounts en rollen</p>
-          <div className="mt-2">
-            <AuthStatus />
-          </div>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">
@@ -95,7 +90,6 @@ export default async function UsersPage() {
             <Plus className="h-4 w-4 mr-2" />
             Nieuwe gebruiker
           </Button>
-          <LogoutButton />
         </div>
       </div>
 
