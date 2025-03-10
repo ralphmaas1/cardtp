@@ -1,8 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tag, Image, LinkIcon, Users, ShoppingCart, MessageSquare, AlertCircle } from "lucide-react"
-import { LogoutButton } from "@/components/logout-button"
-import { AuthStatus } from "@/components/auth-status"
 
 export default function AdminDashboard() {
   // Sample stats for the dashboard
@@ -33,14 +31,8 @@ export default function AdminDashboard() {
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
           <p className="text-gray-500">Welcome to the website management dashboard</p>
-          <div className="mt-2">
-            <AuthStatus />
-          </div>
         </div>
-        <div className="flex gap-2">
-          <Button>Refresh Data</Button>
-          <LogoutButton />
-        </div>
+        <Button>Refresh Data</Button>
       </div>
 
       {/* Stats Cards */}

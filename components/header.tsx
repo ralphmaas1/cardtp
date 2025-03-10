@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Search, Menu } from "lucide-react"
+import { Search, Menu, Shield, Users } from "lucide-react"
 import { useState, useEffect } from "react"
 import { LoginDialog } from "@/components/login-dialog"
 import { LanguageSelector } from "@/components/language-selector"
@@ -19,16 +19,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useRouter } from "next/navigation"
-import { useToast } from "@/components/ui/use-toast"
-
-// Define interfaces for the user_roles query
-interface Role {
-  name: string
-}
-
-interface UserRoleResult {
-  role: Role
-}
 
 export function Header() {
   const [showLoginDialog, setShowLoginDialog] = useState(false)
@@ -38,7 +28,6 @@ export function Header() {
   const [isLoading, setIsLoading] = useState(true)
   const [isAdmin, setIsAdmin] = useState(false)
   const router = useRouter()
-  const { toast } = useToast()
 
   useEffect(() => {
     async function getUser() {
@@ -56,10 +45,7 @@ export function Header() {
             .eq("user_id", session.user.id)
             .single()
 
-          // Cast het resultaat naar het juiste type
-          const typedData = data as UserRoleResult | null
-          
-          if (!error && typedData?.role?.name === "admin") {
+          if (!error && data?.role?.name === "admin") {
             setIsAdmin(true)
           }
         }
@@ -87,10 +73,7 @@ export function Header() {
           .eq("user_id", session.user.id)
           .single()
           .then(({ data, error }) => {
-            // Cast het resultaat naar het juiste type
-            const typedData = data as UserRoleResult | null
-            
-            if (!error && typedData?.role?.name === "admin") {
+            if (!error && data?.role?.name === "admin") {
               setIsAdmin(true)
             }
           })
@@ -110,18 +93,11 @@ export function Header() {
   const handleSignOut = async () => {
     try {
       await supabase.auth.signOut()
-      toast({
-        title: "Uitgelogd",
-        description: "Je bent succesvol uitgelogd.",
-      })
+      alert("Je bent succesvol uitgelogd.")
       router.refresh()
     } catch (error) {
       console.error("Error signing out:", error)
-      toast({
-        title: "Fout bij uitloggen",
-        description: "Er is een fout opgetreden bij het uitloggen.",
-        variant: "destructive",
-      })
+      alert("Er is een fout opgetreden bij het uitloggen.")
     }
   }
 
@@ -175,10 +151,16 @@ export function Header() {
             <>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link href="/admin">Beheerdersdashboard</Link>
+                <Link href="/admin" className="flex items-center">
+                  <Shield className="h-4 w-4 mr-2 text-purple-600" />
+                  <span>Beheerdersdashboard</span>
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/admin/users">Gebruikersbeheer</Link>
+                <Link href="/admin/users" className="flex items-center">
+                  <Users className="h-4 w-4 mr-2 text-blue-600" />
+                  <span>Gebruikersbeheer</span>
+                </Link>
               </DropdownMenuItem>
             </>
           )}

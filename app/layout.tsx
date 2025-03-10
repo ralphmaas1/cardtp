@@ -2,7 +2,9 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
+import { AuthProvider } from "@/components/auth-provider"
+import { DebugAuth } from "@/components/debug-auth"
+import { AdminLink } from "@/components/admin-link"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -17,17 +19,15 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="nl" suppressHydrationWarning>
+    <html lang="en" className="min-h-screen">
       <body className={`${inter.className} min-h-screen flex flex-col`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <AuthProvider>
           <div className="flex-grow flex flex-col">{children}</div>
-        </ThemeProvider>
+          <DebugAuth />
+          <AdminLink />
+        </AuthProvider>
       </body>
     </html>
   )
 }
+

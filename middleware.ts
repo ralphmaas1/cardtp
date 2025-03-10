@@ -2,53 +2,62 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs"
 
-// Hardcoded fallback waarden voor development
-const FALLBACK_URL = "https://cszbcmxuomimthmavzsj.supabase.co"
-const FALLBACK_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzemJjbXh1b21pbXRobWF2enNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyMTc5NDQsImV4cCI6MjA1Njc5Mzk0NH0.JNI2MkZrJ4yr6gGWIIUsb26IQb4hXS1brRWmW2hsyyw"
-
-// Definieer een interface voor de rol
-interface Role {
-  name: string
-}
-
-// Definieer een interface voor het resultaat van de query
-interface UserRoleResult {
-  role: Role
-}
-
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
-  
-  try {
-    // Gebruik de hardcoded credentials als fallback
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || FALLBACK_URL
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || FALLBACK_ANON_KEY
-    
-    const supabase = createMiddlewareClient({ req, res }, { 
-      supabaseUrl, 
-      supabaseKey 
-    })
-    
-    // Check of de gebruiker is ingelogd
-    const { data: { session } } = await supabase.auth.getSession()
-    
-    // Als de gebruiker niet is ingelogd en probeert toegang te krijgen tot admin pagina's
-    if (!session && req.nextUrl.pathname.startsWith('/admin')) {
-      // Redirect naar de homepage
-      return NextResponse.redirect(new URL('/', req.url))
-    }
-    
-    // Voor ontwikkelingsdoeleinden: sta alle ingelogde gebruikers toe om admin pagina's te bekijken
-    return res
-  } catch (error) {
-    console.error("Middleware error:", error)
-    // Bij een fout, redirect naar de homepage
-    return NextResponse.redirect(new URL('/', req.url))
+  const supabase = createMiddlewareClient({ req, res })
+
+  // Check of de gebruiker is ingelogd
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  // Debug logging
+  console.log("Middleware running on path:", req.nextUrl.pathname)
+  console.log("Session exists:", !!session)
+
+  // Als de gebruiker niet is ingelogd en probeert toegang te krijgen tot admin pagina's
+  if (!session && req.nextUrl.pathname.startsWith("/admin")) {
+    console.log("Redirecting to login - no session")
+    const redirectUrl = new URL("/login", req.url)
+    redirectUrl.searchParams.set("redirectTo", req.nextUrl.pathname)
+    return NextResponse.redirect(redirectUrl)
   }
+
+  // Als de gebruiker is ingelogd, controleer of ze admin rechten hebben voor admin pagina's
+  if (session && req.nextUrl.pathname.startsWith("/admin")) {
+    // Haal de gebruikersrol op
+    const { data: roles } = await supabase
+      .from("user_roles")
+      .select("role:roles(name)")
+      .eq("user_id", session.user.id)
+      .single()
+
+    console.log("User roles:", roles)
+
+    const isAdmin = roles?.role?.name === "admin"
+    const isModerator = roles?.role?.name === "moderator" || isAdmin
+
+    console.log("Is admin:", isAdmin)
+    console.log("Is moderator:", isModerator)
+
+    // Als de gebruiker geen admin is, redirect naar de homepage
+    if (!isAdmin && !req.nextUrl.pathname.startsWith("/admin/moderator")) {
+      console.log("Redirecting to home - not admin")
+      return NextResponse.redirect(new URL("/", req.url))
+    }
+
+    // Als de gebruiker geen moderator is en probeert toegang te krijgen tot moderator pagina's
+    if (!isModerator && req.nextUrl.pathname.startsWith("/admin/moderator")) {
+      console.log("Redirecting to admin - not moderator")
+      return NextResponse.redirect(new URL("/admin", req.url))
+    }
+  }
+
+  return res
 }
 
 // Configureer de middleware om alleen te draaien op admin routes
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ["/admin/:path*"],
 }
 
