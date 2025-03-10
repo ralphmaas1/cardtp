@@ -20,6 +20,25 @@ const AuthContext = createContext<AuthContextType>({
 
 export const useAuth = () => useContext(AuthContext)
 
+// Helper functie om de sessie te synchroniseren tussen localStorage en cookies
+function syncSessionToCookies() {
+  if (typeof window === 'undefined') return
+  
+  try {
+    // Haal de sessie op uit localStorage
+    const supabaseAuthKey = 'supabase-auth'
+    const sessionStr = localStorage.getItem(supabaseAuthKey)
+    
+    if (sessionStr) {
+      // Zet de sessie in een cookie voor de middleware
+      document.cookie = `${supabaseAuthKey}=${sessionStr}; path=/; max-age=31536000; SameSite=Lax`
+      console.log("Sessie gesynchroniseerd naar cookies")
+    }
+  } catch (error) {
+    console.error("Fout bij synchroniseren van sessie naar cookies:", error)
+  }
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -28,6 +47,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     async function getUser() {
       try {
+        // Synchroniseer de sessie naar cookies
+        syncSessionToCookies()
+        
         const {
           data: { session },
         } = await supabase.auth.getSession()
@@ -41,8 +63,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             .eq("user_id", session.user.id)
             .single()
 
-          if (!error && data?.role?.name === "admin") {
-            setIsAdmin(true)
+          if (!error && data?.role) {
+            // @ts-ignore - We weten dat role een object is met een name property
+            const roleName = data.role.name
+            setIsAdmin(roleName === "admin")
           }
         }
       } catch (error) {
@@ -59,6 +83,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user || null)
+      
+      // Synchroniseer de sessie naar cookies bij auth veranderingen
+      syncSessionToCookies()
+      
       if (event === "SIGNED_OUT") {
         setIsAdmin(false)
       } else if (event === "SIGNED_IN" && session?.user) {
@@ -69,8 +97,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           .eq("user_id", session.user.id)
           .single()
           .then(({ data, error }) => {
-            if (!error && data?.role?.name === "admin") {
-              setIsAdmin(true)
+            if (!error && data?.role) {
+              // @ts-ignore - We weten dat role een object is met een name property
+              const roleName = data.role.name
+              setIsAdmin(roleName === "admin")
             }
           })
       }
