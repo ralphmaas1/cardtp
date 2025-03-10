@@ -10,12 +10,16 @@ interface AuthContextType {
   user: User | null
   isLoading: boolean
   isAdmin: boolean
+  showDebug: boolean
+  toggleDebug: () => void
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   isLoading: true,
   isAdmin: false,
+  showDebug: false,
+  toggleDebug: () => {},
 })
 
 export const useAuth = () => useContext(AuthContext)
@@ -43,6 +47,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isAdmin, setIsAdmin] = useState(false)
+  const [showDebug, setShowDebug] = useState(false)
+
+  // Functie om debug modus aan/uit te zetten
+  const toggleDebug = () => {
+    const newValue = !showDebug
+    setShowDebug(newValue)
+    
+    // Sla de voorkeur op in localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('auth-debug-enabled', newValue ? 'true' : 'false')
+    }
+  }
+
+  useEffect(() => {
+    // Laad de debug voorkeur uit localStorage
+    if (typeof window !== 'undefined') {
+      const savedPreference = localStorage.getItem('auth-debug-enabled')
+      if (savedPreference !== null) {
+        setShowDebug(savedPreference === 'true')
+      }
+    }
+  }, [])
 
   useEffect(() => {
     async function getUser() {
@@ -111,6 +137,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  return <AuthContext.Provider value={{ user, isLoading, isAdmin }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ user, isLoading, isAdmin, showDebug, toggleDebug }}>{children}</AuthContext.Provider>
 }
 

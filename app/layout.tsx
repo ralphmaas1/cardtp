@@ -5,6 +5,7 @@ import "./globals.css"
 import { AuthProvider } from "@/components/auth-provider"
 import { DebugAuth } from "@/components/debug-auth"
 import { AdminLink } from "@/components/admin/admin-link"
+import { ShowDebugWrapper } from "@/components/show-debug-wrapper"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -23,7 +24,7 @@ export default function RootLayout({
       <body className={`${inter.className} min-h-screen flex flex-col`}>
         <AuthProvider>
           <div className="flex-grow flex flex-col">{children}</div>
-          <DebugAuth />
+          <ShowDebugWrapper />
           <AdminLink />
         </AuthProvider>
       </body>
