@@ -4,9 +4,8 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { AuthProvider } from "@/components/auth-provider"
 import { DebugAuth } from "@/components/debug-auth"
-import { AdminLink } from "@/components/admin/admin-link"
+import { AdminLink } from "@/components/admin/admin-link" 
 import { ShowDebugWrapper } from "@/components/show-debug-wrapper"
-
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {

@@ -45,7 +45,7 @@ export function Header() {
             .eq("user_id", session.user.id)
             .single()
 
-          if (!error && data?.role?.name === "admin") {
+          if (!error && data?.role?.[0]?.name === "admin") {
             setIsAdmin(true)
           }
         }
@@ -73,7 +73,7 @@ export function Header() {
           .eq("user_id", session.user.id)
           .single()
           .then(({ data, error }) => {
-            if (!error && data?.role?.name === "admin") {
+            if (!error && data?.role?.[0]?.name === "admin") {
               setIsAdmin(true)
             }
           })

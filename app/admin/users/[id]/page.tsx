@@ -7,7 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
 import { UserRoleDropdown } from "@/components/admin/user-role-dropdown"
 import { UserActivityChart } from "@/components/admin/user-activity-chart"
-import { supabaseAdmin } from "@/lib/supabase"
+//import { createClient } from "@/lib/supabase/
+import { createClient } from "@supabase/supabase-js"
 
 // Definieer het type voor de gebruiker
 interface User {
@@ -47,8 +48,11 @@ interface User {
 }
 
 async function UserDetailPage({ params }: { params: { id: string } }) {
-  // Gebruik de supabaseAdmin client voor server-side operaties
-  const supabase = supabaseAdmin
+  // Gebruik de supabase client voor server-side operaties
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
   
   // Haal de gebruiker op uit Supabase
   const { data, error } = await supabase
