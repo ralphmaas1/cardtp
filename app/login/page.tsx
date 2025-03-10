@@ -1,10 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { LoginDialog } from "@/components/login-dialog"
 
-export default function LoginPage() {
+// Component dat useSearchParams gebruikt en in Suspense gewikkeld wordt
+function LoginContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get("redirectTo") || "/"
@@ -47,5 +48,25 @@ export default function LoginPage() {
         initialMode="login" 
       />
     </div>
+  )
+}
+
+// Loading fallback component
+function LoginLoading() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gray-50">
+      <div className="text-center">
+        <h1 className="text-2xl font-bold mb-4">Inloggen</h1>
+        <p className="mb-4">Laden...</p>
+      </div>
+    </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<LoginLoading />}>
+      <LoginContent />
+    </Suspense>
   )
 } 
