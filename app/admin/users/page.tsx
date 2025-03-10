@@ -14,16 +14,12 @@ import {
   MoreHorizontal,
   ArrowUpRight,
   Ban,
-  UserCheck,
   UserX,
 } from "lucide-react"
 import Link from "next/link"
 import { UserStatsCards } from "@/components/admin/user-stats-cards"
 import { UserRoleDropdown } from "@/components/admin/user-role-dropdown"
-import { getUsers, getUserStats } from '@/lib/users';
-
-// Importeer de benodigde functies
-// import { getUsers } from "@/lib/users"
+import { getUsers, getUserStats } from "@/lib/users"
 
 export default async function UsersPage() {
   // Haal gebruikers en statistieken op van Supabase
@@ -154,12 +150,18 @@ export default async function UsersPage() {
                         <TableCell>
                           <div className="flex items-center gap-3">
                             <div className="relative h-10 w-10 rounded-full overflow-hidden">
-                              <img src={user.avatarUrl || "/placeholder.svg"} alt={user.name} className="object-cover" />
+                              <img
+                                src={user.avatarUrl || "/placeholder.svg?height=40&width=40"}
+                                alt={user.name || "Gebruiker"}
+                                className="object-cover"
+                              />
                             </div>
                             <div>
-                              <div className="font-medium">{user.name}</div>
-                              <div className="text-xs text-gray-500">{user.email}</div>
-                              <div className="text-xs text-gray-400">@{user.name.toLowerCase().replace(/\s+/g, '')}</div>
+                              <div className="font-medium">{user.name || "Onbekend"}</div>
+                              <div className="text-xs text-gray-500">{user.email || "Geen e-mail"}</div>
+                              <div className="text-xs text-gray-400">
+                                @{user.name ? user.name.toLowerCase().replace(/\s+/g, "") : "gebruiker"}
+                              </div>
                             </div>
                           </div>
                         </TableCell>
@@ -184,10 +186,12 @@ export default async function UsersPage() {
                         <TableCell>
                           <div className="text-sm">{getTimeSince(user.lastActive)}</div>
                           <div className="text-xs text-gray-500">
-                            {user.lastActive ? new Date(user.lastActive).toLocaleTimeString("nl-NL", {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            }) : "Onbekend"}
+                            {user.lastActive
+                              ? new Date(user.lastActive).toLocaleTimeString("nl-NL", {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })
+                              : "Onbekend"}
                           </div>
                         </TableCell>
                         <TableCell>{formatDate(user.createdAt)}</TableCell>
@@ -222,7 +226,9 @@ export default async function UsersPage() {
               </div>
 
               <div className="flex items-center justify-between mt-4">
-                <div className="text-sm text-gray-500">Toont 1-6 van {totalCount} gebruikers</div>
+                <div className="text-sm text-gray-500">
+                  Toont 1-{users.length} van {totalCount} gebruikers
+                </div>
                 <div className="flex gap-1">
                   <Button variant="outline" size="sm" disabled>
                     Vorige
@@ -305,7 +311,7 @@ export default async function UsersPage() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Selecteer actie</label>
-              <select className="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+              <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
                 <option>Stuur e-mail naar geselecteerde gebruikers</option>
                 <option>Wijzig rol van geselecteerde gebruikers</option>
                 <option>Activeer geselecteerde gebruikers</option>
@@ -317,7 +323,7 @@ export default async function UsersPage() {
             <div className="space-y-2">
               <label className="text-sm font-medium">Selecteer gebruikers</label>
               <select
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 multiple
                 size={4}
               >
