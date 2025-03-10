@@ -30,9 +30,9 @@ export default function ProfilePage() {
   ]
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-8">
-        <div>
+    <div className="container mx-auto py-10 px-4 md:px-6">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-12 pt-4">
+        <div className="mb-4 md:mb-0">
           <h1 className="text-2xl font-bold">My Profile</h1>
           <p className="text-muted-foreground">Manage your account and preferences</p>
         </div>
@@ -43,7 +43,7 @@ export default function ProfilePage() {
       </div>
 
       {/* User Profile Card */}
-      <Card className="mb-8">
+      <Card className="mb-12">
         <CardContent className="p-6">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
             <div className="relative">
@@ -73,7 +73,7 @@ export default function ProfilePage() {
       </Card>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         {stats.map((stat) => (
           <Card key={stat.name}>
             <CardContent className="p-6 flex items-center justify-between">
