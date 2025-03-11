@@ -5,6 +5,18 @@ import { Button } from "@/components/ui/button"
 export default function TestHomePage() {
   const testPages = [
     {
+      title: "Schema en Tabel Test",
+      description: "Test specifieke schema's en tabellen in Supabase",
+      path: "/test/schema-test",
+      icon: "🔬"
+    },
+    {
+      title: "Standaard Verbindingstest",
+      description: "Test verbinding met Supabase volgens de officiële documentatie",
+      path: "/test/standard-connection",
+      icon: "✅"
+    },
+    {
       title: "Supabase Direct Test",
       description: "Test direct connection to Supabase with hardcoded credentials",
       path: "/test/supabase-direct",
