@@ -30,3 +30,4 @@ app/test/database-structure/page.tsx
 app/test/database-data/page.tsx
 supabase/.gitignore
 app/test/database-init/page.tsx
+Database-instructie-cursor.pdf
