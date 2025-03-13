@@ -59,7 +59,7 @@ export default function SchemaTest() {
     setResults([])
     
     try {
-      // Create a Supabase client
+      // Maak een Supabase client
       const supabase = createClient(supabaseUrl, supabaseAnonKey, {
         auth: {
           persistSession: false,
@@ -67,15 +67,17 @@ export default function SchemaTest() {
         }
       })
       
-      // Directe methode 1: Gebruik de from() methode met schema parameter
+      // Probeer verschillende benaderingen om de tabel te benaderen
+      
+      // Methode 1: Probeer de tabel te benaderen met schema_tabelnaam notatie
       try {
         const { data, error } = await supabase
-          .from(selectedTable)
+          .from(`${selectedSchema}_${selectedTable}`)
           .select('*')
           .limit(10)
         
         if (error) {
-          console.error("Method 1 error:", error)
+          console.error("Methode 1 fout:", error)
           throw error
         }
         
@@ -84,59 +86,58 @@ export default function SchemaTest() {
         setLoading(false)
         return
       } catch (err1) {
-        console.error("Method 1 failed:", err1)
+        console.error("Methode 1 mislukt:", err1)
         
-        // Directe methode 2: Probeer een SQL query via de REST API
+        // Methode 2: Probeer de tabel direct te benaderen (voor het geval dat de tabellen in het public schema staan)
         try {
-          const response = await fetch(`${supabaseUrl}/rest/v1/${selectedSchema}.${selectedTable}?select=*&limit=10`, {
-            headers: {
-              'apikey': supabaseAnonKey,
-              'Authorization': `Bearer ${supabaseAnonKey}`,
-              'Content-Type': 'application/json'
-            }
-          })
+          const { data, error } = await supabase
+            .from(selectedTable)
+            .select('*')
+            .limit(10)
           
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`)
+          if (error) {
+            console.error("Methode 2 fout:", error)
+            throw error
           }
           
-          const data = await response.json()
           setResults(data || [])
           setSuccess(true)
           setLoading(false)
           return
         } catch (err2) {
-          console.error("Method 2 failed:", err2)
+          console.error("Methode 2 mislukt:", err2)
           
-          // Directe methode 3: Probeer een SQL query via de Supabase client
+          // Methode 3: Probeer de REST API met public schema
           try {
-            const { data, error } = await supabase
-              .from(`${selectedSchema}_${selectedTable}`)
-              .select('*')
-              .limit(10)
+            const response = await fetch(`${supabaseUrl}/rest/v1/${selectedSchema}_${selectedTable}?select=*&limit=10`, {
+              headers: {
+                'apikey': supabaseAnonKey,
+                'Authorization': `Bearer ${supabaseAnonKey}`,
+                'Content-Type': 'application/json'
+              }
+            })
             
-            if (error) {
-              console.error("Method 3 error:", error)
-              throw error
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}, ${await response.text()}`)
             }
             
+            const data = await response.json()
             setResults(data || [])
             setSuccess(true)
             setLoading(false)
             return
           } catch (err3) {
-            console.error("Method 3 failed:", err3)
+            console.error("Methode 3 mislukt:", err3)
             
-            // Directe methode 4: Probeer een SQL query via de Supabase client met een andere notatie
+            // Methode 4: Probeer een SQL query via de Supabase client
             try {
-              const { data, error } = await supabase
-                .from(selectedTable)
-                .select('*')
-                .limit(10)
-                .eq('schema', selectedSchema)
+              const { data, error } = await supabase.rpc('get_table_data', {
+                schema_name: selectedSchema,
+                table_name: selectedTable
+              })
               
               if (error) {
-                console.error("Method 4 error:", error)
+                console.error("Methode 4 fout:", error)
                 throw error
               }
               
@@ -145,8 +146,14 @@ export default function SchemaTest() {
               setLoading(false)
               return
             } catch (err4) {
-              console.error("Method 4 failed:", err4)
-              setError(`Kon geen verbinding maken met de tabel: Alle methoden zijn mislukt. Controleer of de tabel '${selectedSchema}.${selectedTable}' bestaat en toegankelijk is.`)
+              console.error("Methode 4 mislukt:", err4)
+              
+              // Als alle methoden mislukken, toon een duidelijke foutmelding
+              setError(`Kon geen verbinding maken met de tabel: Alle methoden zijn mislukt. 
+                Het lijkt erop dat de schema's '${selectedSchema}' niet toegankelijk zijn voor de anonieme gebruiker. 
+                Mogelijk staan de tabellen in het 'public' schema met een prefix, of zijn ze helemaal niet toegankelijk.
+                
+                Probeer de tabellen te benaderen via SQL in de Supabase interface om te controleren of ze bestaan en toegankelijk zijn.`)
               setLoading(false)
               return
             }
@@ -154,7 +161,7 @@ export default function SchemaTest() {
         }
       }
     } catch (err) {
-      console.error("Unexpected error:", err)
+      console.error("Onverwachte fout:", err)
       setError(err instanceof Error ? err.message : "Er is een onverwachte fout opgetreden")
       setSuccess(false)
       setLoading(false)
@@ -226,7 +233,7 @@ export default function SchemaTest() {
         <CardHeader>
           <CardTitle>Resultaten</CardTitle>
           <CardDescription>
-            {`Query: SELECT * FROM ${selectedSchema}.${selectedTable} LIMIT 10;`}
+            {`Query: SELECT * FROM ${selectedSchema}_${selectedTable} LIMIT 10;`}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -242,7 +249,7 @@ export default function SchemaTest() {
             <Alert className="bg-red-50 text-red-800 border-red-200">
               <XCircle className="h-4 w-4 text-red-600" />
               <AlertTitle>Fout bij uitvoeren query</AlertTitle>
-              <AlertDescription>
+              <AlertDescription className="whitespace-pre-line">
                 {error}
               </AlertDescription>
             </Alert>
